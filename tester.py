@@ -1,12 +1,19 @@
 #En terminal, ejecutar pip install mido python-rtmidi
 import mido
 
-# Función para convertir números de notas MIDI a nombres de notas
-def note_to_name(note_number):
-    note_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-    note_name = note_names[note_number % 12]
-    octave = note_number // 12  # MIDI comienza en C0
-    return f'{note_name}{octave}'
+# Diccionario para conversión a notación conocida
+notas_latinas = ['Do', 'Do♯', 'Re', 'Re♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯', 'La', 'La♯', 'Si']
+
+# Conversor de nota MIDI a nota conocida
+def conversion_nota(numero_midi):
+    # Calcular la octava y el semitono
+    semitono = numero_midi % 12
+    octava = (numero_midi // 12) - 1  # MIDI 0 es en octava -1
+    
+    # Obtener la nota y la octava en notación latina
+    nota = notas_latinas[semitono] 
+    return f"{nota}{octava}"
+
 
 # Función para agrupar mensajes de notas que suenan simultáneamente (acordes)
 def detect_chords(track):
@@ -37,8 +44,8 @@ print(mido.get_input_names())
 input_port_name = 'AKM320 0'
 
 # Abre el puerto de entrada
-with mido.open_input(input_port_name) as input:
+with mido.open_input(input_port_name) as inport: 
     print("Listening for MIDI messages...")
-    for msg in input:
-        print(msg.bytes())
-        print(msg)
+    for msg in inport:
+        #print(msg.bytes())
+        print(conversion_nota(msg.bytes()[1]))

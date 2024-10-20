@@ -1,12 +1,18 @@
 #En terminal, ejecutar pip install mido python-rtmidi
 import mido
 
-# Función para convertir números de notas MIDI a nombres de notas
-def note_to_name(note_number):
-    note_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-    note_name = note_names[note_number % 12]
-    octave = note_number // 12  # MIDI comienza en C0
-    return f'{note_name}{octave}'
+# Diccionario para conversión a notación conocida
+notas_latinas = ['Do', 'Do♯', 'Re', 'Re♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯', 'La', 'La♯', 'Si']
+
+# Conversor de nota MIDI a nota conocida
+def conversion_nota(numero_midi):
+    # Calcular la octava y el semitono
+    semitono = numero_midi % 12
+    octava = (numero_midi // 12) - 1  # MIDI 0 es en octava -1
+    
+    # Obtener la nota y la octava en notación latina
+    nota = notas_latinas[semitono] 
+    return f"{nota}{octava}"
 
 # Función para agrupar mensajes de notas que suenan simultáneamente (acordes)
 def detect_chords(track):
@@ -54,9 +60,11 @@ for i, track in enumerate(midi_file.tracks):
     if current_chord:
         grouped_chords.append(current_chord)
 
+
+
     # Imprimir acordes detectados
     for chord in grouped_chords:
-        notes_in_chord = [note_to_name(note[0]) for note in chord]
+        notes_in_chord = [conversion_nota(note[0]) for note in chord]
         chord_start_time = min(note[1] for note in chord)
         chord_duration = max(note[2] for note in chord)
         print(f'Acorde: {notes_in_chord}, Tiempo de inicio: {chord_start_time}, Duración: {chord_duration}')
