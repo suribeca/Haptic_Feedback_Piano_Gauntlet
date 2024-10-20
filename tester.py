@@ -37,7 +37,8 @@ print(mido.get_input_names())
 input_port_name = 'AKM320 0'
 
 # Abre el puerto de entrada
-with mido.open_input(input_port_name) as inport:
+with mido.open_input(input_port_name) as input:
     print("Listening for MIDI messages...")
-    for msg in inport:
+    for msg in input:
+        print(msg.bytes())
         print(msg)
