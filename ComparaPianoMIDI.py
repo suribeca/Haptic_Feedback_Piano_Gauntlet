@@ -13,7 +13,6 @@ def conversion_nota(numero_midi):
     nota = notas_latinas[semitono] 
     return f"{nota}{octava}"
 
-
 # Función para cargar las notas de un archivo MIDI
 def cargar_notas_midi(archivo_midi):
     midi = mido.MidiFile(archivo_midi)
@@ -47,7 +46,7 @@ def comparar_notas(notas_esperadas, input_port_name):
                     print(f"Correcto! Nota {nota_trad} coincide con la esperada.")
                     indice += 1
                 else:
-                    print(f"Error: tocaste {nota_trad}, pero se esperaba {notas_esperadas[indice]}.")
+                    print(f"Error: tocaste {nota_trad}, pero se esperaba {conversion_nota(notas_esperadas[indice]),s}.")
                     break
                 
                 # Si hemos llegado al final de las notas esperadas

@@ -1,10 +1,10 @@
 #En terminal, ejecutar pip install mido python-rtmidi
 import mido
 
-# Diccionario para conversión a notación conocida
+# Diccionario para conversión a notación latina
 notas_latinas = ['Do', 'Do♯', 'Re', 'Re♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯', 'La', 'La♯', 'Si']
 
-# Conversor de nota MIDI a nota conocida
+# Conversor de nota MIDI a nota latina
 def conversion_nota(numero_midi):
     # Calcular la octava y el semitono
     semitono = numero_midi % 12
